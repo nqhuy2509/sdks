@@ -1,10 +1,11 @@
 import invariant from 'tiny-invariant'
-import { defaultAbiCoder } from 'ethers/lib/utils'
-import { BigNumber } from 'ethers'
+import { AbiCoder } from 'ethers'
 import { Currency, Percent, TradeType } from '@uniswap/sdk-core'
 import { Trade } from '../entities/trade'
 import { ADDRESS_ZERO, EMPTY_BYTES } from '../internalConstants'
 import { encodeRouteToPath } from './encodeRouteToPath'
+
+const defaultAbiCoder = AbiCoder.defaultAbiCoder()
 /**
  * Actions
  * @description Constants that define what action to perform
@@ -211,18 +212,18 @@ export class V4Planner {
     return this
   }
 
-  addSettle(currency: Currency, payerIsUser: boolean, amount?: BigNumber): V4Planner {
+  addSettle(currency: Currency, payerIsUser: boolean, amount?: BigInt): V4Planner {
     this.addAction(Actions.SETTLE, [currencyAddress(currency), amount ?? FULL_DELTA_AMOUNT, payerIsUser])
     return this
   }
 
-  addTake(currency: Currency, recipient: string, amount?: BigNumber): V4Planner {
+  addTake(currency: Currency, recipient: string, amount?: BigInt): V4Planner {
     const takeAmount = amount ?? FULL_DELTA_AMOUNT
     this.addAction(Actions.TAKE, [currencyAddress(currency), recipient, takeAmount])
     return this
   }
 
-  addUnwrap(amount: BigNumber): V4Planner {
+  addUnwrap(amount: BigInt): V4Planner {
     this.addAction(Actions.UNWRAP, [amount])
     return this
   }

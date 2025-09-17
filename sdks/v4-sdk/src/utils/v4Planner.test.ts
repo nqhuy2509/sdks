@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import JSBI from 'jsbi'
 import { CurrencyAmount, Ether, Percent, TradeType, Token, WETH9 } from '@uniswap/sdk-core'
 import { encodeSqrtRatioX96, nearestUsableTick, TickMath } from '@uniswap/v3-sdk'
@@ -10,7 +9,7 @@ import { ADDRESS_ZERO, FEE_AMOUNT_MEDIUM, TICK_SPACING_TEN, ONE_ETHER, NEGATIVE_
 
 import { Actions, V4Planner } from './v4Planner'
 
-const ONE_ETHER_BN = BigNumber.from(1).mul(10).pow(18)
+const ONE_ETHER_BN = BigInt(1) * BigInt(10) ** BigInt(18)
 const TICKLIST = [
   {
     index: nearestUsableTick(TickMath.MIN_TICK, TICK_SPACING_TEN),
@@ -75,7 +74,7 @@ describe('RouterPlanner', () => {
           poolKey: USDC_WETH.poolKey,
           zeroForOne: true,
           amountIn: ONE_ETHER_BN,
-          amountOutMinimum: ONE_ETHER_BN.div(2),
+          amountOutMinimum: ONE_ETHER_BN / 2n,
           hookData: '0x',
         },
       ])
@@ -208,7 +207,7 @@ describe('RouterPlanner', () => {
 
     it('completes a settle with a specified amount', async () => {
       const payerIsUser = true
-      const amount = BigNumber.from('8')
+      const amount = BigInt('8')
       planner.addSettle(DAI, payerIsUser, amount)
 
       expect(planner.actions).toEqual('0x0b')
@@ -219,7 +218,7 @@ describe('RouterPlanner', () => {
 
     it('completes a settle with payerIsUser as false', async () => {
       const payerIsUser = false
-      const amount = BigNumber.from('8')
+      const amount = BigInt('8')
       planner.addSettle(DAI, payerIsUser, amount)
 
       expect(planner.actions).toEqual('0x0b')
@@ -242,7 +241,7 @@ describe('RouterPlanner', () => {
 
     it('completes a take with a specified amount', async () => {
       const recipient = '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-      const amount = BigNumber.from('8')
+      const amount = BigInt('8')
       planner.addTake(DAI, recipient, amount)
 
       expect(planner.actions).toEqual('0x0e')

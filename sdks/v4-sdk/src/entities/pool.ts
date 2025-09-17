@@ -10,11 +10,13 @@ import {
   TickListDataProvider,
   TickMath,
 } from '@uniswap/v3-sdk'
-import { defaultAbiCoder, isAddress } from 'ethers/lib/utils'
+import { AbiCoder, isAddress } from 'ethers'
 import { sortsBefore } from '../utils/sortsBefore'
 import { Hook } from '../utils/hook'
 import { ADDRESS_ZERO, NEGATIVE_ONE, Q192 } from '../internalConstants'
 import JSBI from 'jsbi'
+
+const defaultAbiCoder = AbiCoder.defaultAbiCoder()
 
 export const DYNAMIC_FEE_FLAG = 0x800000
 const NO_TICK_DATA_PROVIDER_DEFAULT = new NoTickDataProvider()
